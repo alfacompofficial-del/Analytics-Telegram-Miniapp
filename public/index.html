@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#f4f5f0">
+    <meta name="description" content="Ваш Telegram-профиль и настройки доступа в одном месте.">
+    <title>Telegram profile | Fieldnote</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="wordmark" href="#top" aria-label="Fieldnote, начало">
+          <span class="wordmark-mark" aria-hidden="true">F</span>
+          <span>fieldnote<span class="wordmark-dot">.</span></span>
+        </a>
+        <div class="topbar-meta">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span>TELEGRAM MINI APP</span>
+        </div>
+        <button class="icon-button" id="refresh-button" type="button" aria-label="Обновить профиль" title="Обновить профиль">
+          <span aria-hidden="true">↻</span>
+        </button>
+      </header>
+
+      <nav class="quick-nav" aria-label="Разделы профиля">
+        <a class="quick-tab is-active" href="#account-section" aria-current="location"><span>01</span> Аккаунт</a>
+        <a class="quick-tab" href="#session-section"><span>02</span> Сессия</a>
+        <a class="quick-tab" href="#permissions-section"><span>03</span> Доступ</a>
+        <a class="quick-tab" href="#gallery-section"><span>04</span> Фото</a>
+      </nav>
+
+      <main id="top">
+        <section class="profile-intro" aria-labelledby="page-title">
+          <div class="intro-copy">
+            <p class="eyebrow">ЛИЧНЫЙ ПРОФИЛЬ <span id="profile-id-label">TG / —</span></p>
+            <h1 id="page-title">Ваш Telegram,<br><span>без догадок.</span></h1>
+            <p class="intro-note">Данные аккаунта, которые Telegram разрешил этому приложению показать.</p>
+          </div>
+
+          <div class="identity-panel" id="identity-panel" aria-live="polite">
+            <div class="avatar-wrap">
+              <img class="avatar" id="avatar" alt="" hidden>
+              <div class="avatar-fallback" id="avatar-fallback" aria-hidden="true">?</div>
+              <span class="avatar-presence" aria-hidden="true"></span>
+            </div>
+            <div class="identity-copy">
+              <p class="identity-kicker">ВАШ АККАУНТ</p>
+              <h2 id="display-name">Загружаем профиль</h2>
+              <p class="username" id="username">Откройте Mini App внутри Telegram</p>
+            </div>
+            <div class="premium-badge" id="premium-badge" hidden>PREMIUM</div>
+          </div>
+        </section>
+
+        <div class="notice" id="notice" role="status" hidden></div>
+
+        <section class="data-section" id="account-section" aria-labelledby="account-heading">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">01 / АККАУНТ</p>
+              <h2 id="account-heading">Основное</h2>
+            </div>
+            <span class="section-caption">ИЗ TELEGRAM</span>
+          </div>
+          <div class="data-grid">
+            <article class="data-row">
+              <span class="data-label">Имя</span>
+              <span class="data-value" id="first-name">—</span>
+            </article>
+            <article class="data-row">
+              <span class="data-label">Telegram ID</span>
+              <span class="data-value mono" id="telegram-id">—</span>
+            </article>
+            <article class="data-row">
+              <span class="data-label">Фамилия</span>
+              <span class="data-value" id="last-name">—</span>
+            </article>
+            <article class="data-row">
+              <span class="data-label">Имя пользователя</span>
+              <span class="data-value" id="profile-username">—</span>
+            </article>
+            <article class="data-row">
+              <span class="data-label">Язык интерфейса</span>
+              <span class="data-value mono" id="language-code">—</span>
+            </article>
+            <article class="data-row">
+              <span class="data-label">Статус Telegram Premium</span>
+              <span class="data-value" id="premium-value">—</span>
+            </article>
+            <article class="data-row">
+              <span class="data-label">Тип аккаунта</span>
+              <span class="data-value" id="account-type">—</span>
+            </article>
+            <article class="data-row">
+              <span class="data-label">Разрешение писать в ЛС</span>
+              <span class="data-value" id="write-access">—</span>
+            </article>
+            <article class="data-row">
+              <span class="data-label">Добавлен в меню вложений</span>
+              <span class="data-value" id="attachment-status">—</span>
+            </article>
+            <article class="data-row">
+              <span class="data-label">Фото профиля</span>
+              <span class="data-value" id="photo-count">—</span>
+            </article>
+            <article class="data-row">
+              <span class="data-label">Email</span>
+              <span class="data-value" id="email-value">Не предоставляет Telegram</span>
+            </article>
+            <article class="data-row">
+              <span class="data-label">Дата рождения</span>
+              <span class="data-value" id="birthday-value">Не предоставляет Telegram</span>
+            </article>
+            <article class="data-row">
+              <span class="data-label">Дата регистрации</span>
+              <span class="data-value" id="registration-value">Не предоставляет Telegram</span>
+            </article>
+          </div>
+          <div class="photo-strip" id="photo-strip" aria-label="Фотографии профиля" hidden></div>
+        </section>
+
+        <section class="data-section" id="session-section" aria-labelledby="session-heading">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">02 / MINI APP</p>
+              <h2 id="session-heading">Параметры сессии</h2>
+            </div>
+            <span class="section-caption">ТЕКУЩЕЕ УСТРОЙСТВО</span>
+          </div>
+          <div class="data-grid">
+            <article class="data-row">
+              <span class="data-label">Платформа Telegram</span>
+              <span class="data-value" id="platform-value">—</span>
+            </article>
+            <article class="data-row">
+              <span class="data-label">Версия приложения</span>
+              <span class="data-value mono" id="app-version">—</span>
+            </article>
+            <article class="data-row">
+              <span class="data-label">Тема интерфейса</span>
+              <span class="data-value" id="theme-value">—</span>
+            </article>
+            <article class="data-row">
+              <span class="data-label">Тип чата запуска</span>
+              <span class="data-value" id="chat-type">—</span>
+            </article>
+            <article class="data-row">
+              <span class="data-label">Время авторизации</span>
+              <span class="data-value" id="auth-time">—</span>
+            </article>
+            <article class="data-row">
+              <span class="data-label">Параметр запуска</span>
+              <span class="data-value mono" id="start-parameter">—</span>
+            </article>
+            <article class="data-row">
+              <span class="data-label">Высота окна Mini App</span>
+              <span class="data-value mono" id="viewport-height">—</span>
+            </article>
+            <article class="data-row">
+              <span class="data-label">API-сервер</span>
+              <span class="data-value" id="api-status">Проверяется</span>
+            </article>
+            <article class="data-row">
+              <span class="data-label">Сохранение профиля</span>
+              <span class="data-value" id="supabase-status">Проверяется</span>
+            </article>
+          </div>
+        </section>
+
+        <section class="data-section permissions-section" id="permissions-section" aria-labelledby="permissions-heading">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">03 / ДОСТУП</p>
+              <h2 id="permissions-heading">Только по запросу</h2>
+            </div>
+            <span class="section-caption">ВАШ ВЫБОР</span>
+          </div>
+          <p class="section-description">Эти данные не входят в обычный профиль. Telegram спросит разрешение отдельно, и вы можете отказаться.</p>
+
+          <div class="permission-list">
+            <article class="permission-row">
+              <div class="permission-copy">
+                <h3>Номер телефона</h3>
+                <p id="phone-status">Не предоставлен</p>
+              </div>
+              <button class="action-button" id="contact-button" type="button">Поделиться номером <span aria-hidden="true">↗</span></button>
+            </article>
+            <article class="permission-row">
+              <div class="permission-copy">
+                <h3>Местоположение</h3>
+                <p id="location-status">Не запрашивалось</p>
+              </div>
+              <button class="action-button" id="location-button" type="button">Поделиться геопозицией <span aria-hidden="true">↗</span></button>
+            </article>
+            <article class="permission-row">
+              <div class="permission-copy">
+                <h3>Сообщения от бота</h3>
+                <p id="write-status">Разрешение не запрашивалось</p>
+              </div>
+              <button class="action-button" id="write-button" type="button">Разрешить сообщения <span aria-hidden="true">↗</span></button>
+            </article>
+          </div>
+          <div class="location-result" id="location-result" hidden>
+            <span class="location-coordinates mono" id="location-coordinates"></span>
+            <a id="map-link" target="_blank" rel="noreferrer">Открыть карту ↗</a>
+          </div>
+        </section>
+
+        <section class="data-section gallery-section" id="gallery-section" aria-labelledby="gallery-heading">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">04 / ФОТОГРАФИИ</p>
+              <h2 id="gallery-heading">Аватары аккаунта</h2>
+            </div>
+            <span class="section-caption">ЧЕРЕЗ BOT API</span>
+          </div>
+          <p class="section-description">Показываются только фотографии, которые Telegram разрешил получить боту. История может быть недоступна, если вы ещё не взаимодействовали с ботом.</p>
+          <div class="gallery" id="gallery" aria-live="polite"></div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>FIELDNOTE <span class="footer-dot">/</span> TELEGRAM PROFILE</span>
+        <span>Данные принадлежат вам</span>
+      </footer>
+    </div>
+  </body>
+</html>
